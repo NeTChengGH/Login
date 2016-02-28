@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>请先登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="stylesheet" href="css/login.css"/>
+    <script src="js/init_common.js"></script>
+  </head>
+  <body id="login">
+    <div class="container">
+
+      <form class="form-signin">
+        <h2 class="form-signin-heading">请先登录</h2>
+        <p id="message"></p>
+        <input id="user" type="text" class="input-block-level" placeholder="请输入账号">
+        <input id="password" type="password" class="input-block-level" placeholder="请输入密码">
+        <label class="checkbox">
+          <a href=""> 注册 </a>
+        </label>
+        <button id="loginBtn" class="btn btn-large btn-primary">登录</button>
+      </form>
+
+    </div> <!-- /container -->
+    <script src="js/jquery-1.11.2.js"></script>
+    <script>
+		$("#loginBtn").click(function(){
+			$("#message").text("登录中...");
+			var param = {};
+			param.user = $("#user").val();
+			param.password = $("#password").val();
+			$.ajax({
+
+				type: 'get',
+			
+				url: baseUrl + "/LoginController/login.do",
+			
+				async: true,
+					  
+				data: param,
+				
+				dataType: 'JSON',   
+    		  
+        		success: function(data){ 
+					if(data.success){
+						$("#message").text("登录成功！");
+						window.location.href = "";
+					}else{
+						$("#message").text(data.exception);
+					}
+				},
+				error: function(jqXHR, error, errorThrown) {
+					$("#message").text("登录失败！连接失败！"+errorThrown);
+				}
+			});	
+			return false;
+		});
+	</script>
+  </body>
+</html>
